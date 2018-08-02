@@ -187,12 +187,12 @@ public class HistoriqueController {
     private EmailService emailService;
 
 	
-   @GetMapping("/historique/echec/send/{id}")
+   
 
-public  Historique SendMail(@PathVariable String id) throws Exception {
+public  Historique SendMail( Historique h,String resultat ,String date,String heure) throws Exception {
 	 
 	
-	Optional<Historique> h = repository.findById(id);
+	//Optional<Historique> h = repository.findById(id);
 
 
     Logger log = LoggerFactory.getLogger(MailController.class);
@@ -203,17 +203,23 @@ public  Historique SendMail(@PathVariable String id) throws Exception {
         log.info("Spring Mail - Sending Simple Email with JavaMailSender Example");
 
         Mail mail = new Mail();
-        mail.setFrom("harb.nihel55@gmail.com");
+        mail.setFrom("maissa1922@gmail.com");
         
-        mail.setTo(h.get().getEmails());
-        String [] res = h.get().getEmails().split("\\s");
+        //mail.setTo(h.get().getEmails());
+        String [] res =h.getEmails().split("\\s");
         for(int i=0; i<res.length;i++)
   
         {
         	System.out.println(res[i]);
             mail.setTo(res[i]);
-            mail.setSubject("Sending Simple Email with JavaMailSender Example");
-           mail.setContent("cbn ! :: Email d echec"+ h.get().getNom()+"est échoué à "+ h.get().getDate()); 
+            
+            if(resultat.equals("echec"))
+            {   	 mail.setSubject(" échec d'éxécution  du test");
+           mail.setContent("Echec de test "+h.getNom()+" éffectué à "+date+"à l'heure "+heure);}
+            else
+            { 	
+        mail.setSubject("Retard d'éxécution du test");
+        mail.setContent("Retard d'éxecution :temps de réponse réél est "+h.getTemps_rep_reel()+" et le temps de réponse attendu = est:"+h.getResultat_attendu());}
            emailService.sendSimpleMessage(mail);
         }
        

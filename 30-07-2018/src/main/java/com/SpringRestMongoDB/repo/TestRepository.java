@@ -9,6 +9,7 @@ import com.SpringRestMongoDB.model.Test;
 
 public interface TestRepository extends MongoRepository<Test, String>{
 	List<Test> findByURL(String URL);
+	Test findByid(String id);
 
 //	Object loadUserByUsername(String username);
 

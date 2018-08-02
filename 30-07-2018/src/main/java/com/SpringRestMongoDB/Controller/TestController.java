@@ -5,16 +5,20 @@ import java.io.IOException;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +38,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SpringRestMongoDB.WS.Soap;
 import com.SpringRestMongoDB.model.Historique;
+import com.SpringRestMongoDB.model.Mail;
 import com.SpringRestMongoDB.model.Test;
 
 import com.SpringRestMongoDB.repo.TestRepository;
+import com.SpringRestMongoDB.service.EmailService;
 import com.SpringRestMongoDB.service.UserService;
 
 
@@ -134,15 +140,58 @@ public class TestController {
 		}
 	}
 	
+	
+	
+	
+	@Autowired
+    private EmailService emailService;
+
+	
+ 
+
+public  Test SendMail(@PathVariable String id) throws Exception {
+	 
+	
+	Optional<Test> h = repository.findById(id);
+
+
+    Logger log = LoggerFactory.getLogger(MailController.class);
+
+    
+
+   
+        log.info("Spring Mail - Sending Simple Email with JavaMailSender Example");
+
+        Mail mail = new Mail();
+        mail.setFrom("maissa1922@gmail.com");
+        
+        mail.setTo(h.get().getEmails());
+        String [] res = h.get().getEmails().split("\\s");
+        for(int i=0; i<res.length;i++)
+  
+        {
+        	System.out.println(res[i]);
+            mail.setTo(res[i]);
+            mail.setSubject("Sending Simple Email with JavaMailSender Example");
+           mail.setContent("cbn ! :: Email d echec"+ h.get().getNom()+"est échoué "); 
+           emailService.sendSimpleMessage(mail);
+        }
+       
+
+       
+		return null; 
+
+    }
+	
 	////////////////lancer web service
-   // @DateTimeFormat(pattern = "yyyy/MM/dd")
+   // @DateTimeFormat(pattern = "yyyy-MM-dd")
     
 	@PostMapping("/test/lunch")
-	public void lunch_ws(@RequestBody Test test) {
+	public HashMap<String, Object> lunch_ws(@RequestBody Test test) throws Exception {
 
 		
 Soap soap=new Soap() ;
-		
+	
 		String resultat="";
 		SOAPMessage message = null;
 		
@@ -156,6 +205,8 @@ Soap soap=new Soap() ;
 		 
 		 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate localDate = LocalDate.now();
+			 DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("hh:mm:ss");
+			ZonedDateTime zdt = ZonedDateTime.now();
 	
 	  
 		 ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -179,8 +230,20 @@ Soap soap=new Soap() ;
    			test.getEmails(), Long.toString(time_spent),dtf.format(localDate),resultat);
        
        controller_hist.postTests(h);
+       HashMap<String, Object> rtn = new LinkedHashMap<String, Object>();
+       rtn.put("resultat", resultat);
+       rtn.put("date", dtf.format(localDate));
+   if(resultat.equals("echec"))
+       controller_hist.SendMail(h,resultat,dtf.format(localDate),dtf2.format(zdt));
+   
+   else if(Integer.parseInt(h.getTemps_rep_reel())>Integer.parseInt(test.getTemps_rep()))
+	   controller_hist.SendMail(h,resultat,dtf.format(localDate),dtf2.format(zdt));
+	   
+    
+
+       return rtn;
      
-		     
+      // return JSONObject.quote(resultat);   
 	}
 	
 	
