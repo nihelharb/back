@@ -68,6 +68,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
          http.cors().and().authorizeRequests().antMatchers(HttpMethod.GET,"/api/historique/{nom}/{dateD}/{dateF}").permitAll();
          http.cors().and().authorizeRequests().antMatchers(HttpMethod.GET,"/api/historique/{nom}").permitAll();
          http.cors().and().authorizeRequests().antMatchers(HttpMethod.GET,"/api/historique/echec/{dateD}").permitAll();
+    	 http.cors().and().authorizeRequests().antMatchers(HttpMethod.GET,"/api/historique/echec/send/{id}").permitAll();
 
          
    http.cors().and().authorizeRequests().antMatchers(HttpMethod.PUT,"/api/test/{id}").permitAll();	

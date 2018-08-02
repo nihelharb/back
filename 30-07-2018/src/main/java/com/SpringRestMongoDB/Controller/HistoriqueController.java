@@ -7,11 +7,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.xml.soap.SOAPMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +27,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SpringRestMongoDB.model.Historique;
+import com.SpringRestMongoDB.model.Mail;
 import com.SpringRestMongoDB.model.Test;
 import com.SpringRestMongoDB.repo.HistoriqueRepository;
+import com.SpringRestMongoDB.service.EmailService;
 
+@Controller
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
@@ -33,7 +44,9 @@ import com.SpringRestMongoDB.repo.HistoriqueRepository;
 public class HistoriqueController {
 	@Autowired
 	HistoriqueRepository repository;
- 
+
+	
+	
 	@GetMapping("/historique")
 	public List<Historique> getAllHistorique() {
 		
@@ -168,4 +181,46 @@ public class HistoriqueController {
 		
 	return tt ;
 	}
+	
+	
+	@Autowired
+    private EmailService emailService;
+
+	
+   @GetMapping("/historique/echec/send/{id}")
+
+public  Historique SendMail(@PathVariable String id) throws Exception {
+	 
+	
+	Optional<Historique> h = repository.findById(id);
+
+
+    Logger log = LoggerFactory.getLogger(MailController.class);
+
+    
+
+   
+        log.info("Spring Mail - Sending Simple Email with JavaMailSender Example");
+
+        Mail mail = new Mail();
+        mail.setFrom("harb.nihel55@gmail.com");
+        
+        mail.setTo(h.get().getEmails());
+        String [] res = h.get().getEmails().split("\\s");
+        for(int i=0; i<res.length;i++)
+  
+        {
+        	System.out.println(res[i]);
+            mail.setTo(res[i]);
+            mail.setSubject("Sending Simple Email with JavaMailSender Example");
+           mail.setContent("cbn ! :: Email d echec"+ h.get().getNom()+"est échoué à "+ h.get().getDate()); 
+           emailService.sendSimpleMessage(mail);
+        }
+       
+
+       
+		return null; 
+
+    }
+   
 }
