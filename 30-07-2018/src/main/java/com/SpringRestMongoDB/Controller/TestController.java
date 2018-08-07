@@ -52,7 +52,7 @@ import com.SpringRestMongoDB.service.UserService;
 public class TestController {
 	
 	//@Value("${ENDPOINT_ADDRESS_PROPERTY}")
-	private String URL="http://localhost:37901/Conversion_Monnaie/Converion_Monnaie?WSDL";
+	private String URL="http://localhost:27917/Conversion_Monnaie/Converion_Monnaie?WSDL";
 	
 	
 	//public static final String ENDPOINT_ADDRESS_PROPERTY="http://localhost:8080/Conversion_Monnaie/Converion_Monnaie?WSDL";
