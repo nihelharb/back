@@ -47,6 +47,7 @@ import com.SpringRestMongoDB.service.EmailService;
 import com.SpringRestMongoDB.service.UserService;
 
 
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
@@ -290,16 +291,25 @@ public  Test SendMail( String id) throws Exception {
     
 	@PostMapping("/test/lunch")
 	public HashMap<String, Object> lunch_ws(@RequestBody Test test) throws Exception {
-
+    
+	
 		
         Soap soap=new Soap() ;
 	
 		String resultat="";
 		SOAPMessage message = null;
+
 		
-		 message =  soap.createSOAPMessageFromFile(this.getClass().getResource("SoapTest.xml"));
+		 message =  soap.createSOAPMessageFromFile(this.getClass().getResource("SoapTest.xml"));//from xml to soap
 		 logger.debug( this.getClass().getResource("SoapTest.xml").toString());
 		
+		 
+		// SOAPMessage message = soapHelper.createSOAPMessageFromFile(this.getClass().getResource("SoapTest.xml"));
+		 soap.addAuthorizationHeaderToSOAPMessage(message, "SBL_ENT", "SBL", "PWD");
+		 
+	       // Assert.assertTrue(message.getMimeHeaders().getHeader("Authorization").length==1);
+	        
+	        
 		 SOAPMessage message_response= soap.submitRequestMessageToSoapWebService(message,test.getURL());
 		 
 		 long time_spent=soap.spentTime;

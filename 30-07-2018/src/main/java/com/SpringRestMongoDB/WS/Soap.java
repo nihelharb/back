@@ -24,10 +24,26 @@ import com.SpringRestMongoDB.exception.IntegrationEnvironmentException;
 
 
 
+
 public class Soap {
 	
 	public long spentTime=0;
 	public static final Logger logger = LoggerFactory.getLogger(Soap.class);
+	
+	  /**
+     * This method adds Soliam authorization header to Soap message
+     * @param requestMessage : the Soap message
+     * @param entity : the entity (for authorization header)
+     * @param user : the user (for authorization header)
+     * @param password : the password (for authorization header)
+     */
+    public void addAuthorizationHeaderToSOAPMessage(SOAPMessage requestMessage, String entity, String user, String password) {
+        
+        SoliamAuthorizationHttpHeaderBuilder soliamAuthorizationHttHeaderBuilder = new SoliamAuthorizationHttpHeaderBuilder(); 
+        String header = soliamAuthorizationHttHeaderBuilder.createAuthorizationHttpHeader(entity, user, password);
+        requestMessage.getMimeHeaders().addHeader(SoliamAuthorizationHttpHeaderBuilder.HEADER_NAME, header);
+        
+    }
 	
 	  /**
      * This method send a Soap request to a web service via his endpoint
@@ -37,6 +53,7 @@ public class Soap {
      * @param requestFileName
      * @return the response
      */
+	
 	
 	 public SOAPMessage submitRequestMessageToSoapWebService(SOAPMessage requestMessage, String endpoint) {
 	        
