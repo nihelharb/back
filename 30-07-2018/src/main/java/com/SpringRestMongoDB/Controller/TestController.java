@@ -300,7 +300,7 @@ public  Test SendMail( String id) throws Exception {
 		 message =  soap.createSOAPMessageFromFile(this.getClass().getResource("SoapTest.xml"));
 		 logger.debug( this.getClass().getResource("SoapTest.xml").toString());
 		
-		 SOAPMessage message_response= soap.submitRequestMessageToSoapWebService(message,URL);
+		 SOAPMessage message_response= soap.submitRequestMessageToSoapWebService(message,test.getURL());
 		 
 		 long time_spent=soap.spentTime;
 		 
