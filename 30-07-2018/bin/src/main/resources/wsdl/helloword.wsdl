@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+-<definitions name="Converion_Monnaie" targetNamespace="http://WebService/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://WebService/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+
+-<types>
+
+-<xsd:schema>
+
+<xsd:import schemaLocation="http://localhost:8080/Conversion_Monnaie/Converion_Monnaie?xsd=1" namespace="http://WebService/"/>
+
+</xsd:schema>
+
+</types>
+
+
+-<message name="addition_monnaie">
+
+<part name="parameters" element="tns:addition_monnaie"/>
+
+</message>
+
+
+-<message name="addition_monnaieResponse">
+
+<part name="parameters" element="tns:addition_monnaieResponse"/>
+
+</message>
+
+
+-<portType name="Converion_Monnaie">
+
+
+-<operation name="addition_monnaie">
+
+<input message="tns:addition_monnaie" wsam:Action="http://WebService/Converion_Monnaie/addition_monnaieRequest"/>
+
+<output message="tns:addition_monnaieResponse" wsam:Action="http://WebService/Converion_Monnaie/addition_monnaieResponse"/>
+
+</operation>
+
+</portType>
+
+
+-<binding name="Converion_MonnaiePortBinding" type="tns:Converion_Monnaie">
+
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+
+-<operation name="addition_monnaie">
+
+<soap:operation soapAction=""/>
+
+
+-<input>
+
+<soap:body use="literal"/>
+
+</input>
+
+
+-<output>
+
+<soap:body use="literal"/>
+
+</output>
+
+</operation>
+
+</binding>
+
+
+-<service name="Converion_Monnaie">
+
+
+-<port name="Converion_MonnaiePort" binding="tns:Converion_MonnaiePortBinding">
+
+<soap:address location="http://localhost:8080/Conversion_Monnaie/Converion_Monnaie"/>
+
+</port>
+
+</service>
+
+</definitions>

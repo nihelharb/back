@@ -15,6 +15,7 @@ public class Historique extends Test {
  //   @DateTimeFormat(pattern = "yyyy/MM/dd")
 	private String date;
 	private String resultat;
+	private String time;
 	
 		
 	
@@ -24,20 +25,18 @@ public class Historique extends Test {
 		
 	}
 
-	public Historique(String nom, String uRL, String parametre, String temps_rep, String resultat_attendu,
-			String emails) {
-		super(nom, uRL, parametre, temps_rep, resultat_attendu, emails);
-	
-	}
-
 	public Historique(String nom, String URL, String parametre, String temps_rep, String resultat_attendu,
-			String emails,String temps_rep_reel,String date,String resultat) {
+			String emails,String temps_rep_reel,String date,String time,String resultat) {
+		
+		
 		super(nom, URL, parametre, temps_rep, resultat_attendu, emails);
 		this.temps_rep_reel=temps_rep_reel;
 		this.date=date;
+		this.time=time;
 		this.resultat=resultat;
 		
 	}
+
 
 	public String getTemps_rep_reel() {
 		return temps_rep_reel;
@@ -56,6 +55,14 @@ public class Historique extends Test {
 	}
 	public void setResultat(String resultat) {
 		this.resultat = resultat;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 	
 	

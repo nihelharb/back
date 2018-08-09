@@ -15,6 +15,7 @@ public class Test {
 	private String  temps_rep;
 	private String resultat_attendu;
 	private String emails;
+
 	
 	
 	
@@ -32,6 +33,21 @@ public class Test {
 		this.resultat_attendu = resultat_attendu;
 		this.emails = emails;
 	}
+	
+	public Test(String id,String nom, String uRL, String parametre, String temps_rep, String resultat_attendu,
+			String emails) {
+		
+		this.id=id;
+		this.nom = nom;
+		URL = uRL;
+		this.parametre = parametre;
+		this.temps_rep = temps_rep;
+		this.resultat_attendu = resultat_attendu;
+		this.emails = emails;
+	}
+	
+
+	
 	public String getId() {
 		return id;
 	}
@@ -74,10 +90,7 @@ public class Test {
 	public void setEmails(String emails) {
 		this.emails = emails;
 	}
+
 	
-	
-	
-	
-	
-	
+
 }

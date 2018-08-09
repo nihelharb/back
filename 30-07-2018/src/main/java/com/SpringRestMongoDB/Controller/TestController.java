@@ -2,11 +2,12 @@ package com.SpringRestMongoDB.Controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,7 +19,7 @@ import java.util.Optional;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
-import org.json.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ import com.SpringRestMongoDB.WS.Soap;
 import com.SpringRestMongoDB.model.Historique;
 import com.SpringRestMongoDB.model.Mail;
 import com.SpringRestMongoDB.model.Test;
-
+import com.SpringRestMongoDB.model.Test_date;
 import com.SpringRestMongoDB.repo.TestRepository;
 import com.SpringRestMongoDB.service.EmailService;
 import com.SpringRestMongoDB.service.UserService;
@@ -66,13 +67,112 @@ public class TestController {
 	
 	@Autowired
 	TestRepository repository;
+	
+	@PostMapping("/test_date_lunch")
+	public List<String> get_last_lunch(@RequestBody Test test) throws ParseException {
+	
+		System.out.println("******"+test.getURL());
+		List<Historique> list=controller_hist.findByNom(test.getNom());
+		List<Historique> list2=new ArrayList();
+		
+	//	System.out.println(list.size());
+		List<String> f=new ArrayList();
+	if(list.size()!=0)	
+	{
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+		  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		 //  java.util.Date date_max = new java.util.Date() ;
+	      //  dd = formatter.parse(date_string);
+		   
+		
+		   
+    	Date  date_max= formatter.parse(list.get(0).getDate());
+ 	
+	 // System.out.println(formatter.format(date_max));
+	  
+	  
+		for(Historique h:list) {
+			
+			 Date 	date_cour=formatter.parse(h.getDate());
+			 if(date_cour.after(date_max))
+				 date_max=date_cour;
+				 
+		}
+	
+		
+		for(Historique h:list) {
+			
+			 if( formatter.parse(h.getDate()).equals(date_max))
+				{
+				 list2.add(h);
+				
+				}
+				 
+		}
+		 System.out.println(list2.get(0).getTime());
+		 
+	//	 Date date1 = dtf2.parse(time1);
+		 Date time_max =format.parse(list2.get(0).getTime());
+		 
+		
+		
+		for(Historique h:list2) {
+			 Date time_cour = format.parse(h.getTime());
+			if(time_cour.getTime()>time_max.getTime())
+				time_max=time_cour;
+			
+				 
+		}
+		//System.out.println(dtf2.format(time_max));
+		
+		f.add(formatter.format(date_max));
+		f.add(format.format(time_max));
+		
+	}
+	else
+	{
+		f.add("");
+		f.add("");
+		
+	}
+	return f;
+	}
+	
+
+	
+	
+	@GetMapping("/test_date")
+	public List<Test_date> getAllTests_date() throws ParseException {
+	
+		List<Test> tests = new ArrayList<>();
+		List<Test_date> tests2 = new ArrayList<>();
+		
+		repository.findAll().forEach(tests::add);
+		
+		//System.out.println(get_last_lunch(tests.get(0)));
+		
+		for(Test t:tests) {
+			//System.out.println(get_last_lunch(t));
+			
+	tests2.add(new Test_date(t.getId(),t.getNom(),t.getURL(),t.getURL(), t.getParametre(),t.getResultat_attendu(),
+		t.getEmails(),get_last_lunch(t).get(0),get_last_lunch(t).get(1)));
+
+		}
+		
+		
+		return tests2;
+	}
  
+
+	
 	@GetMapping("/test")
 	public List<Test> getAllTests() {
 	
 		List<Test> tests = new ArrayList<>();
 		repository.findAll().forEach(tests::add);
- 
+		
+		
+		
 		return tests;
 	}
  
@@ -108,6 +208,8 @@ public class TestController {
 		List<Test> tests = repository.findAll();
 		return tests;
 	}
+	
+	
 	@GetMapping("/test/{id}")
 	public Test findById(@PathVariable String id) {
  
@@ -149,7 +251,7 @@ public class TestController {
 	
  
 
-public  Test SendMail(@PathVariable String id) throws Exception {
+public  Test SendMail( String id) throws Exception {
 	 
 	
 	Optional<Test> h = repository.findById(id);
@@ -190,7 +292,7 @@ public  Test SendMail(@PathVariable String id) throws Exception {
 	public HashMap<String, Object> lunch_ws(@RequestBody Test test) throws Exception {
 
 		
-Soap soap=new Soap() ;
+        Soap soap=new Soap() ;
 	
 		String resultat="";
 		SOAPMessage message = null;
@@ -205,9 +307,9 @@ Soap soap=new Soap() ;
 		 
 		 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDate localDate = LocalDate.now();
-			 DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("hh:mm:ss");
+			 DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("HH:mm:ss");
 			ZonedDateTime zdt = ZonedDateTime.now();
-	
+			
 	  
 		 ByteArrayOutputStream out = new ByteArrayOutputStream();
 		 try {
@@ -227,12 +329,15 @@ Soap soap=new Soap() ;
 	        resultat="echec";
     
        Historique h=new Historique(test.getNom(), test.getURL(), test.getParametre(),test.getParametre(), test.getResultat_attendu(),
-   			test.getEmails(), Long.toString(time_spent),dtf.format(localDate),resultat);
+   			test.getEmails(), Long.toString(time_spent),dtf.format(localDate),dtf2.format(zdt),resultat);
+       
        
        controller_hist.postTests(h);
+       
        HashMap<String, Object> rtn = new LinkedHashMap<String, Object>();
        rtn.put("resultat", resultat);
        rtn.put("date", dtf.format(localDate));
+       rtn.put("time", dtf2.format(zdt));
    if(resultat.equals("echec"))
        controller_hist.SendMail(h,resultat,dtf.format(localDate),dtf2.format(zdt));
    

@@ -65,6 +65,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
 
     	 http.cors().and().authorizeRequests().antMatchers(HttpMethod.GET,"/api/historique").permitAll();
+    	 http.cors().and().authorizeRequests().antMatchers(HttpMethod.POST,"/api/historique/create").permitAll();
          http.cors().and().authorizeRequests().antMatchers(HttpMethod.GET,"/api/historique/{nom}/{dateD}/{dateF}").permitAll();
          http.cors().and().authorizeRequests().antMatchers(HttpMethod.GET,"/api/historique/{nom}").permitAll();
          http.cors().and().authorizeRequests().antMatchers(HttpMethod.GET,"/api/historique/echec/{dateD}").permitAll();
@@ -90,7 +91,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 	
 		.authorizeRequests()
 	
-		.antMatchers("/account/register","/account/find/{username}","/account/login","/logout","/api/test/lunch").permitAll()
+		.antMatchers("/account/register","/account/find/{username}","/account/login","/logout","/api/test/lunch","/api/test_date","/api/test_date_lunch").permitAll()
 	
 		.anyRequest().fullyAuthenticated().and()
 

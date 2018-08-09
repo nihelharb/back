@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.bsb.com/soliam/fo" xmlns:ns2="http://parameter.core.view.fo.soliam.bsb.com" xmlns:ns1="http://core.data.view.fo.soliam.bsb.com" xmlns:ns3="http://www.bsb.com/sf/exceptions/1" xmlns:soapenc12="http://www.w3.org/2003/05/soap-encoding" xmlns:tns="http://www.bsb.com/soliam/fo" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc11="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+  <wsdl:types>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://core.data.view.fo.soliam.bsb.com">
+<xsd:complexType name="DataServiceVO">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="dataFilters" type="ns1:ArrayOfDataFilter"/>
+<xsd:element minOccurs="0" name="dataRequested" type="ns1:DataRequested"/>
+<xsd:element minOccurs="0" name="infoMessage" type="xsd:string"/>
+<xsd:element minOccurs="0" name="viewId" type="tns:ViewId"/>
+<xsd:element minOccurs="0" name="viewName" type="xsd:string"/>
+<xsd:element minOccurs="0" name="viewOwner" type="xsd:string"/>
+<xsd:element minOccurs="0" name="viewParameters" type="ns1:ArrayOfViewParameter"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="DataRequested">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="columns" type="ns1:ArrayOfColumnData"/>
+<xsd:element minOccurs="0" name="data" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfColumnData">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="ColumnData" type="ns1:ColumnData"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ColumnData">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="columnDataType" type="tns:Type"/>
+<xsd:element minOccurs="0" name="customHeader" type="xsd:string"/>
+<xsd:element minOccurs="0" name="description" type="xsd:string"/>
+<xsd:element minOccurs="0" name="externalCode" type="xsd:string"/>
+<xsd:element minOccurs="0" name="headerEn" type="xsd:string"/>
+<xsd:element minOccurs="0" name="headerFr" type="xsd:string"/>
+<xsd:element minOccurs="0" name="id" type="xsd:string"/>
+<xsd:element minOccurs="0" name="memoColumnDefinitionId" type="xsd:string"/>
+<xsd:element minOccurs="0" name="rateDateColumnDefinitionId" type="xsd:string"/>
+<xsd:element minOccurs="0" name="unitColumnDefinitionId" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfDataFilter">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="DataFilter" type="ns1:DataFilter"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="DataFilter">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="bigDecimalValues" type="tns:ArrayOfDecimal"/>
+<xsd:element minOccurs="0" name="booleanValue" type="xsd:boolean"/>
+<xsd:element minOccurs="0" name="bothBooleanValues" type="xsd:boolean"/>
+<xsd:element minOccurs="0" name="colummData" type="ns1:ColumnData"/>
+<xsd:element minOccurs="0" name="columnDataType" type="tns:Type"/>
+<xsd:element minOccurs="0" name="dateFilter" type="ns1:DateFilter"/>
+<xsd:element minOccurs="0" name="operator" type="tns:Operator"/>
+<xsd:element minOccurs="0" name="parameters" type="ns1:ArrayOfColumnParameter"/>
+<xsd:element minOccurs="0" name="stringValues" type="tns:ArrayOfString"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="DateFilter">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="beginDate" type="xsd:string"/>
+<xsd:element minOccurs="0" name="deltaBeginDate" type="xsd:int"/>
+<xsd:element minOccurs="0" name="deltaEndDate" type="xsd:int"/>
+<xsd:element minOccurs="0" name="endDate" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfColumnParameter">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="ColumnParameter" type="ns1:ColumnParameter"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ColumnParameter">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="label" type="xsd:string"/>
+<xsd:element minOccurs="0" name="parameterId" type="xsd:string"/>
+<xsd:element minOccurs="0" name="value" type="ns1:ParameterValue"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ParameterValue">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="booleanValue" type="xsd:boolean"/>
+<xsd:element minOccurs="0" name="dateFilter" type="ns1:DateFilter"/>
+<xsd:element minOccurs="0" name="decimalValue" type="xsd:decimal"/>
+<xsd:element minOccurs="0" name="integerValue" type="xsd:int"/>
+<xsd:element minOccurs="0" name="stringValue" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfViewParameter">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="ViewParameter" type="ns1:ViewParameter"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ViewParameter">
+<xsd:sequence>
+<xsd:element minOccurs="0" name="parameterId" type="ns2:ParameterId"/>
+<xsd:element minOccurs="0" name="value" type="ns1:ParameterValue"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.bsb.com/soliam/fo">
+<xsd:simpleType name="Type">
+<xsd:restriction base="xsd:string">
+<xsd:enumeration value="OBJECT"/>
+<xsd:enumeration value="BOOLEAN"/>
+<xsd:enumeration value="PARAMETER_CODE"/>
+<xsd:enumeration value="REFERENTIAL"/>
+<xsd:enumeration value="STRING"/>
+<xsd:enumeration value="DATE"/>
+<xsd:enumeration value="TIME"/>
+<xsd:enumeration value="TIMESTAMP"/>
+<xsd:enumeration value="AMOUNT"/>
+<xsd:enumeration value="DURATION"/>
+<xsd:enumeration value="EXCHANGE_RATE"/>
+<xsd:enumeration value="NUMBER"/>
+<xsd:enumeration value="PERCENTAGE"/>
+<xsd:enumeration value="PRICE"/>
+<xsd:enumeration value="QUANTITY"/>
+<xsd:enumeration value="RATE"/>
+<xsd:enumeration value="INTEGER"/>
+<xsd:enumeration value="CLOB"/>
+<xsd:enumeration value="PLACEHOLDER"/>
+<xsd:enumeration value="DATEANDSTRING"/>
+<xsd:enumeration value="NUMBERANDSTRING"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="ViewId">
+<xsd:restriction base="xsd:string">
+<xsd:enumeration value="POSITION"/>
+<xsd:enumeration value="ACQUISITION_LINE"/>
+<xsd:enumeration value="PORTFOLIO"/>
+<xsd:enumeration value="THIRD_PARTY"/>
+<xsd:enumeration value="SECURITY"/>
+<xsd:enumeration value="CONTRACT"/>
+<xsd:enumeration value="NAV"/>
+<xsd:enumeration value="PERF_ATTR"/>
+<xsd:enumeration value="CONTACT"/>
+<xsd:enumeration value="RELATIONS"/>
+<xsd:enumeration value="ADDRESS"/>
+<xsd:enumeration value="TRANSACTIONAL"/>
+<xsd:enumeration value="PERFORMANCE"/>
+<xsd:enumeration value="CONSOLIDATION_ENTITY"/>
+<xsd:enumeration value="CONSOLIDATION_ENTITY_ASSOCIATION"/>
+<xsd:enumeration value="ROLE"/>
+<xsd:enumeration value="HOLDINGS_MANAGEMENT"/>
+<xsd:enumeration value="DOCUMENT"/>
+<xsd:enumeration value="DISTRIBUTION"/>
+<xsd:enumeration value="LINKED_WITHDRAWALS"/>
+<xsd:enumeration value="SUBSCRIPTION"/>
+<xsd:enumeration value="CONSTRAINT"/>
+<xsd:enumeration value="CONSTRAINTS_DESCRIPTIVE"/>
+<xsd:enumeration value="CASH_FLOW"/>
+<xsd:enumeration value="TIMEBASED_SECURITY"/>
+<xsd:enumeration value="TIMEBASED_POSITION"/>
+<xsd:enumeration value="TIMEBASED_PORTFOLIO"/>
+<xsd:enumeration value="TARIFICATION"/>
+<xsd:enumeration value="PNL"/>
+<xsd:enumeration value="CAS"/>
+<xsd:enumeration value="GROUP_PORTFOLIOS"/>
+<xsd:enumeration value="TIMEBASED_CONSTRAINT"/>
+<xsd:enumeration value="DETAIL_POSITION"/>
+<xsd:enumeration value="FINANCIAL_MESSAGES"/>
+<xsd:enumeration value="LOCALISATION"/>
+<xsd:enumeration value="PASSIVE_FLOW"/>
+<xsd:enumeration value="PRE_NETTING"/>
+<xsd:enumeration value="PSTOCKS"/>
+<xsd:enumeration value="RECOMMENDATION"/>
+<xsd:enumeration value="HEDGE_FUND_SCHEDULER"/>
+<xsd:enumeration value="VIEW_CACHE"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:simpleType name="Operator">
+<xsd:restriction base="xsd:string">
+<xsd:enumeration value="EQUALS"/>
+<xsd:enumeration value="DIFFERENT"/>
+<xsd:enumeration value="GREATER_THAN"/>
+<xsd:enumeration value="GREATER_OR_EQUAL"/>
+<xsd:enumeration value="LOWER_THAN"/>
+<xsd:enumeration value="LOWER_OR_EQUAL"/>
+<xsd:enumeration value="IN"/>
+<xsd:enumeration value="NOT_IN"/>
+<xsd:enumeration value="LIKE"/>
+<xsd:enumeration value="NOT_LIKE"/>
+<xsd:enumeration value="BETWEEN"/>
+<xsd:enumeration value="IN_LIKE"/>
+<xsd:enumeration value="NOT_IN_LIKE"/>
+<xsd:enumeration value="IS_NULL"/>
+<xsd:enumeration value="IS_NOT_NULL"/>
+<xsd:enumeration value="EQUALS_IGNORE_CASE"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:complexType name="ArrayOfString">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="string" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ArrayOfDecimal">
+<xsd:sequence>
+<xsd:element maxOccurs="unbounded" minOccurs="0" name="decimal" nillable="true" type="xsd:decimal"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="getData">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="dataServiceVO" type="ns1:DataServiceVO"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getDataResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" type="ns1:DataServiceVO"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getColumnIds">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="dataServiceVO" type="ns1:DataServiceVO"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getColumnIdsResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" type="ns1:DataServiceVO"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://parameter.core.view.fo.soliam.bsb.com">
+<xsd:simpleType name="ParameterId">
+<xsd:restriction base="xsd:string">
+<xsd:enumeration value="VIEW_DATE"/>
+<xsd:enumeration value="VIEW_RANGE"/>
+<xsd:enumeration value="DURATION"/>
+<xsd:enumeration value="STEP"/>
+<xsd:enumeration value="MERGED_CNT"/>
+<xsd:enumeration value="ORDER_RELATED"/>
+<xsd:enumeration value="TRANS_MARKET_ORDER"/>
+<xsd:enumeration value="TRANS_CLIENT_ORDER"/>
+<xsd:enumeration value="TRANS_OPERATIONS"/>
+<xsd:enumeration value="TRANS_MOVEMENTS"/>
+<xsd:enumeration value="TRANSPARISATION"/>
+<xsd:enumeration value="MAXRESULTS"/>
+<xsd:enumeration value="VIEW_TYPE_PRO"/>
+<xsd:enumeration value="LOC_VALUATIONS"/>
+<xsd:enumeration value="LOC_AMOUNTS"/>
+<xsd:enumeration value="TWRR_SST"/>
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bsb.com/sf/exceptions/1" elementFormDefault="qualified" targetNamespace="http://www.bsb.com/sf/exceptions/1">
+
+    <xsd:complexType name="SimpleExceptionDetail">
+        <xsd:annotation>
+            <xsd:documentation>
+                The most basic representation of an exception occurred when calling a service.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="actionMessage" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="business" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="code" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="descriptionMessage" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="summaryMessage" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="timestamp" type="xsd:dateTime"/>
+            <xsd:element minOccurs="0" name="recoverable" type="xsd:boolean"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="SimpleExceptionDetail" type="SimpleExceptionDetail"/>
+
+    <xsd:complexType name="SfExceptionDetail">
+        <xsd:complexContent>
+            <xsd:annotation>
+                <xsd:documentation>
+                    An SF exception detail is an extension of the simple exception details providing information
+                    more accurate information (that can lead to security issues).
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:extension base="SimpleExceptionDetail">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="contextualInformation" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="stackTrace" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="user" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="SfExceptionDetail" type="SfExceptionDetail"/>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getDataResponse">
+    <wsdl:part name="parameters" element="tns:getDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SfExceptionDetail">
+    <wsdl:part name="SfExceptionDetail" element="ns3:SfExceptionDetail">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDataRequest">
+    <wsdl:part name="parameters" element="tns:getData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getColumnIdsResponse">
+    <wsdl:part name="parameters" element="tns:getColumnIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getColumnIdsRequest">
+    <wsdl:part name="parameters" element="tns:getColumnIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="DataWebService">
+    <wsdl:operation name="getData">
+      <wsdl:input name="getDataRequest" message="tns:getDataRequest">
+    </wsdl:input>
+      <wsdl:output name="getDataResponse" message="tns:getDataResponse">
+    </wsdl:output>
+      <wsdl:fault name="SfExceptionDetail" message="tns:SfExceptionDetail">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getColumnIds">
+      <wsdl:input name="getColumnIdsRequest" message="tns:getColumnIdsRequest">
+    </wsdl:input>
+      <wsdl:output name="getColumnIdsResponse" message="tns:getColumnIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="SfExceptionDetail" message="tns:SfExceptionDetail">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DataWebServiceImplHttpBinding" type="tns:DataWebService">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getData">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getDataRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDataResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SfExceptionDetail">
+        <wsdlsoap:fault name="SfExceptionDetail" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getColumnIds">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getColumnIdsRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getColumnIdsResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SfExceptionDetail">
+        <wsdlsoap:fault name="SfExceptionDetail" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DataWebServiceImpl">
+    <wsdl:port name="DataWebServiceImplHttpPort" binding="tns:DataWebServiceImplHttpBinding">
+      <wsdlsoap:address location="http://localhost:28080/tms/services/DataWebServiceImpl"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -9,4 +9,5 @@ import com.SpringRestMongoDB.model.Test;
 
 public interface HistoriqueRepository extends MongoRepository<Historique, String>{
  List<Historique> findByNom(String nom);
+ List<Historique> findByURL(String url);
 }

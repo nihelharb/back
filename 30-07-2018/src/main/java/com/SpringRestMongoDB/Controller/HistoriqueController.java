@@ -73,8 +73,9 @@ public class HistoriqueController {
 
 	@PostMapping("/historique/create")
 	public Historique postTests(@RequestBody Historique test) {
- 
-		Historique _test = repository.save(new Historique(test.getNom(), test.getURL(),test.getParametre(),test.getTemps_rep(),test.getResultat_attendu(),test.getEmails(),test.getTemps_rep_reel(),test.getDate(),test.getResultat()));
+		Historique h=new Historique(test.getNom(), test.getURL(),test.getParametre(),test.getTemps_rep(),test.getResultat_attendu(),test.getEmails(),test.getTemps_rep_reel(),test.getDate(),test.getTime(),test.getResultat());
+		Historique _test = repository.save(h);
+		
 		return _test;
 	
 	}
@@ -84,9 +85,18 @@ public class HistoriqueController {
 	@GetMapping("/historique/{nom}")
 	public List<Historique> findByNom(@PathVariable String nom) {
  
-		List<Historique> hists = repository.findAll();
+		List<Historique> hists = repository.findByNom(nom);
 		return hists;
 	}
+	@GetMapping("/historique/{url}")
+	public List<Historique> findByURL(@PathVariable String url) {
+ 
+		List<Historique> hists = repository.findByURL(url);
+		return hists;
+	}
+	
+	
+
 	
 	
 	@GetMapping("/historique/{nom}/{dateD}/{dateF}")
