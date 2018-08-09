@@ -101,7 +101,8 @@ public class HistoriqueController {
 	
 	@GetMapping("/historique/{nom}/{dateD}/{dateF}")
 	public List<String> getHistorique(@PathVariable String nom,@PathVariable String dateD,@PathVariable String dateF) throws ParseException {
-		int nb =0;
+		int nbechec =0;
+		int nbretard =0;
 		int temps =0 ;
 		List<Historique> tests = new ArrayList<>();
 		List<Historique> tt = new ArrayList<>();
@@ -133,8 +134,13 @@ public class HistoriqueController {
      {    tt.add(h);
        temps+=Integer.parseInt(h.getTemps_rep_reel());
      if ( h.getResultat().equals("echec"))
-    	 nb ++ ;
+    	 nbechec ++ ;
 
+     else 
+     
+    	 if (Integer.parseInt(h.getTemps_rep_reel())>Integer.parseInt(h.getTemps_rep()))
+    		 nbretard++;
+     
      }
 		}catch(ParseException ex) {
 			System.out.println(ex.getMessage());
@@ -145,10 +151,15 @@ public class HistoriqueController {
 		}
 		res.add(""+tt.get(0).getNom());
 		res.add(""+tt.size());
-		res.add(""+nb);
+		res.add(""+nbechec);
+		res.add(""+nbretard);
 		res.add(""+temps/tt.size());
-		
-
+	/*	res.set(0, ""+tt.get(0).getNom());
+		res.set(1, ""+tt.size());
+		res.set(2, ""+nbechec);
+		res.set(3, ""+nbretard);
+		res.set(4, ""+""+temps/tt.size());
+*/
 		System.out.println(res.get(0));
 		
 		
@@ -213,7 +224,7 @@ public  Historique SendMail( Historique h,String resultat ,String date,String he
         log.info("Spring Mail - Sending Simple Email with JavaMailSender Example");
 
         Mail mail = new Mail();
-        mail.setFrom("maissa1922@gmail.com");
+        mail.setFrom("harb.nihel55@gmail.com");
         
         //mail.setTo(h.get().getEmails());
         String [] res =h.getEmails().split("\\s");
