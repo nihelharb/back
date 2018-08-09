@@ -154,12 +154,7 @@ public class HistoriqueController {
 		res.add(""+nbechec);
 		res.add(""+nbretard);
 		res.add(""+temps/tt.size());
-	/*	res.set(0, ""+tt.get(0).getNom());
-		res.set(1, ""+tt.size());
-		res.set(2, ""+nbechec);
-		res.set(3, ""+nbretard);
-		res.set(4, ""+""+temps/tt.size());
-*/
+	
 		System.out.println(res.get(0));
 		
 		
